@@ -8,8 +8,9 @@ import pickle
 import cv2
 
 
-def predict_clothes():
-    image = cv2.imread('redshirt.jpg')
+def predict_clothes(file):
+    image = cv2.imdecode(np.fromstring(
+        file.read(), np.uint8), cv2.IMREAD_UNCHANGED)
     output = imutils.resize(image, width=400)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
@@ -19,7 +20,7 @@ def predict_clothes():
     image = np.expand_dims(image, axis=0)
 
     # loading network
-    model = load_model('E:/multi-label.h5', custom_objects={"tf": tf})
+    model = load_model('multi-label.h5', custom_objects={"tf": tf})
     categoryLB = pickle.loads(open('category_lb.pickle', "rb").read())
     colorLB = pickle.loads(open('color_lb.pickle', "rb").read())
 
